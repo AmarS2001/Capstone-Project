@@ -1,0 +1,9 @@
+https://www.advancinganalytics.co.uk/blog/2021/06/22/10-incredibly-useful-time-series-forecasting-algorithms
+
+https://towardsdatascience.com/time-series-analysis-on-multivariate-data-in-tensorflow-2f0591088502
+
+
+Decided models to use :
+1) Multivariate FBProphet
+2) ARIMA
+3) VAR
