@@ -1,0 +1,160 @@
+<html>
+    <head>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <title>
+          WATER PREDITION SYSTEM
+        </title>  
+
+       <style>
+        .dataframe {
+                      font-family: Arial, Helvetica, sans-serif;
+                      border-collapse: collapse;
+                      width: 100%;
+                    }
+
+        .dataframe  td, .dataframe th {
+                      border: 1px solid #ddd;
+                      padding: 8px;
+                    }
+
+        .dataframe tr:nth-child(even){background-color: #f2f2f2;}
+
+        .dataframe tr:hover {background-color: #ddd;}
+
+        .dataframe th {
+                      padding-top: 12px;
+                      padding-bottom: 12px;
+                      text-align: left;
+                      background-color: #020413;
+                      color: white;
+                    }
+       </style> 
+
+        
+    </head>
+    
+   
+
+
+    <body>
+
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">WATER PREDITION SYSTEM</a>
+          </div>
+          <div style="float:right">
+            <ul class="nav navbar-nav"  >
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="dash">Dashboard</a></li>
+              <li><a href="about">About </a></li>
+              <li><a href="show">Show Graph</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
+
+
+      <div style="padding: 100px 300px;">
+
+
+        <div class="form-group" >
+          <label for="formGroupExampleInput">Example</label>
+          <input type="text" class="form-control" id="formGroupExampleInput" style="padding: 10px 10px ; width: 250px;" placeholder="10 or 12" style="padding: 10px 20px;" disabled>
+        </div>
+
+
+        <div class="form-group">
+          <label for="formGroupExampleInput2">ENTER NUMBER OF MONTHS TO PREDICT</label>
+          <input type="text" class="form-control" id="months"  placeholder="enter the number of months here" style="padding: 10px 10px; width: 250px;">
+        </div>
+    
+
+      <button class="btn btn-outline-primary" style="padding: 10px 22px; background-color:rgb(6, 6, 6); color: white;" onclick="predict()" >PREDICT</button>
+      <button   class="btn btn-outline-success" style="padding: 10px 22px;background-color:rgb(13, 13, 13); color: white;" onclick="train()">TRAIN</button>
+      <button  class="btn btn-outline-warning" style="padding: 10px 22px; background-color:rgb(20, 21, 19); color: white;" onclick="load()">LOAD ALL MODELS</button>
+        
+    </div>
+
+    <div id="disp_predict">
+    </div>
+
+    <div style="margin:10px">
+      <button class="btn btn-outline-warning" style="padding: 10px 22px; background-color:rgb(20, 21, 19); color: white;" onclick="scores()">Performance</button>
+    </div>
+
+    <div id="disp_scores">
+    </div>
+
+
+
+
+    
+    
+
+    <script>
+      function predict()
+      {
+        var x = document.getElementById("months")
+        console.log(x.value)
+
+        ins =  document.getElementById("disp_predict")
+
+        fetch("http://127.0.0.1:8000/predict",
+        {
+          method: "POST",
+          headers: {
+                'Content-Type': 'application/json'
+                  },
+          body: JSON.stringify({"months": parseInt(x.value)})
+        })
+        .then(data => data.json()).then(data=> {ins.innerHTML=data.htm_res;
+            
+            console.log(data.htm_res)})
+        
+      }
+
+
+
+      function train()
+      {
+        fetch('http://127.0.0.1:8000/train')
+          .then(data => {
+          console.log(data.json());
+          })
+      }
+
+      function load()
+      {
+        fetch('http://127.0.0.1:8000/load')
+          .then(data => {
+          console.log(data.json());
+          })
+      }
+
+      function scores()
+      {
+              x =  document.getElementById("disp_scores")
+              fetch('http://127.0.0.1:8000/scores', {
+              headers: {
+              'accept': 'application/json'
+            }
+            }).then(data => data.json()).then(data=> {x.innerHTML=data.htm_res;
+            
+            console.log(data.htm_res)})
+  
+      }
+
+      
+
+    </script>
+
+
+
+    
+</body>
+</html>
